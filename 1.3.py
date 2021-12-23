@@ -1,39 +1,34 @@
+import requests
 import json
+res = []
 
-dict_one = []
-a = input()
-data_json = json.dumps(a, indent=4, sort_keys=True)
-data_again = eval(json.loads(data_json))
-letters = [i['name'] for i in data_again]
-for i in data_again:
-    arr = f"{i['name']}: {' '.join(i['parents'])}"
-    data_json.append(arr)
-ddd = {i[0]: i[1:] for i in [j.split(': ') for j in data_json]}
-for k, i in ddd.items():
-    ddd[k] = ''.join(i).split()
+client_id = 'bbc8b3c2dc1ec6f120be'
+client_secret = '95f5e8b95a285b47b6a54d01188a8b8e'
 
+# инициируем запрос на получение токена
+r = requests.post("https://api.artsy.net/api/tokens/xapp_token",
+                  data={
+                      "client_id": client_id,
+                      "client_secret": client_secret
+                  })
 
-# функция честно сперта отсюда http://www.infocity.kiev.ua/prog/python/content/pytonesse_3.shtml
-def find_path(graph, start, end, path=[]):
-    path = path + [start]
-    if start == end:
-        return path
-    if not start in graph:
-        return None
-    for node in graph[start]:
-        if node not in path:
-            newpath = find_path(graph, node, end, path)
-            if newpath: return newpath
-    return None
+# разбираем ответ сервера
+j = json.loads(r.text)
 
+# достаем токен
+token = j["token"]
 
-result, result2 = [], []
-for i in letters:
-    for j in letters:
-        if find_path(ddd, i, j) is not None:
-            result.append(j)
+# создаем заголовок, содержащий наш токен
+headers = {"X-Xapp-Token" : token}
 
-for i in result:
-    result2.append(f'{i} : {result.count(i)}')
-for i in sorted(set(result2)):
-    print(i)
+# инициируем запрос с заголовком
+for i in range(15):
+    line = input()
+    ln = r"https://api.artsy.net/api/artists/"+line.strip()+"/"
+    #print(ln)
+    r = requests.get(f"{ln}", headers=headers)
+    # разбираем ответ сервера
+    j = json.loads(r.text)
+    res.append((j['sortable_name'],j['birthday']))
+for i in sorted(res, key = lambda x: x[1]):
+    print(i[0])
