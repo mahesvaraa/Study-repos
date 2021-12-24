@@ -1,2 +1,5 @@
-a = int(input())
-print(-15 < a <= 12 or 14 < a < 17 or a > 19)
+print({1: 'move up',
+       2: 'move down',
+       3: 'move left',
+       4: 'move right',
+       0: 'do not move'}.get(int(input()), 'error!'))
