@@ -1,19 +1,17 @@
-a = '''<cube color="blue">
-  <cube color="red">
-    <cube color="green">
-    </cube>
-  </cube>
-  <cube color="red">
-  </cube>
-</cube>'''
+n = m = int(input())
 
-from lxml import etree
+a = [[0] * m for _ in range(n)]
 
-root = etree.fromstring(a)
-dic = {'red': 0, 'green': 0, 'blue': 0}
-tree = etree.ElementTree(root)
-for e in root.iter():
-    print(e.attrib['color'], tree.getpath(e))
-    dic[e.attrib['color']] += tree.getpath(e).count('/')
-for i in dic.values():
-    print(i, end=' ')
+i, j, d = 0, 0, 0
+moves = ((0, 1,), (1, 0,), (0, -1,), (-1, 0,),)
+for k in range(1, n * m + 1):
+    a[i][j] = k
+    for l in range(4):
+        newD = (d + l) % 4
+        di, dj = moves[newD]
+        newI, newJ = i + di, j + dj
+        if 0 <= newI < n and 0 <= newJ < m and a[newI][newJ] == 0:
+            i, j, d = newI, newJ, newD
+            break
+for row in a:
+    print(*row)
