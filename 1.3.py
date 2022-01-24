@@ -1,17 +1,37 @@
-n = m = int(input())
+from collections import Counter
 
-a = [[0] * m for _ in range(n)]
+word = input()
+word_counter = list(map(list, Counter(word).most_common()[::-1]))
+while len(word_counter) > 2:
+    left, right = word_counter[0], word_counter[1]
+    word_counter = word_counter[2::]
+    word_counter.append([left[0:-1], right[0:-1], left[-1] + right[-1]])
+    word_counter.sort(key=lambda x: x[-1])
 
-i, j, d = 0, 0, 0
-moves = ((0, 1,), (1, 0,), (0, -1,), (-1, 0,),)
-for k in range(1, n * m + 1):
-    a[i][j] = k
-    for l in range(4):
-        newD = (d + l) % 4
-        di, dj = moves[newD]
-        newI, newJ = i + di, j + dj
-        if 0 <= newI < n and 0 <= newJ < m and a[newI][newJ] == 0:
-            i, j, d = newI, newJ, newD
-            break
-for row in a:
-    print(*row)
+
+def find_idx(input_list, elem):
+    for i in range(len(input_list)):
+        if isinstance(input_list[i], list):
+            result = find_idx(input_list[i], elem)
+            if result:
+                return [i] + result
+        elif input_list[i] == elem:
+            return [i]
+
+    return False
+
+
+dic = {}
+result = ''
+
+for i in set(word):
+    dic[i] = ''.join(list(map(str, find_idx(word_counter, i))))[:-1]
+
+for i in word:
+    result += str(dic[i])
+
+print(len(set(word)), len(result))
+
+for k, i in sorted(dic.items()):
+    print(k, ': ', i, sep="")
+print(result)

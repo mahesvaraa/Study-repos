@@ -16,7 +16,7 @@
 5
 ```
 # Solution
-```
+```python
 def fib_digit(n):
     a, b = 0, 1
     for i in range(1,n):

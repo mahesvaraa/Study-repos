@@ -13,7 +13,7 @@
 ```
 
 # Solution
-```
+```python
 def fib(n):
     result = [0, 1]
 

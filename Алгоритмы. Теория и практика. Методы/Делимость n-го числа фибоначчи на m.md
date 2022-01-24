@@ -14,7 +14,7 @@
 1
 ```
 # Solution
-```
+```python
 def fib_mod(n, m):
     a, b, res = 0, 1, []
     while True:
