@@ -1,9 +1,11 @@
+
+import time
+
+import selenium.common.exceptions as exc
+import selenium.webdriver.support.expected_conditions as ec
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-import selenium.common.exceptions as exc
-import selenium.webdriver.support.expected_conditions as ec
-import time
 
 
 def is_element_appeared(driver, locator, timeout=10):
@@ -27,7 +29,7 @@ browser = webdriver.Chrome()
 browser.implicitly_wait(10)
 wait = WebDriverWait(browser, 15)
 
-task_link = 'https://stepik.org/lesson/13230/step/8?unit=3416'
+task_link = 'https://stepik.org/lesson/13240/step/7?unit=3426'
 
 # Authorization on Stepik
 browser.get('https://stepik.org/catalog?auth=login')
