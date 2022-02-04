@@ -1,5 +1,12 @@
-from fractions import Fraction as F
+from functools import reduce
 
-n = int(input())
-x = sorted(list({F(i, j) for i in range(1, n + 1) for j in range(1, n + 1)}))
-[print(i) for i in x if i < 1]
+coefficients, x = input().split(), int(input())
+
+
+def evaluate(coefficients, x):
+    arr = [x for i in range(len(coefficients))]
+    step = [i for i in range(len(coefficients) - 1, -1, -1)]
+    print(reduce(lambda x, y: x + y, map(lambda x, y, n: int(x) * y ** n, coefficients, arr, step)))
+
+
+evaluate(coefficients, x)
