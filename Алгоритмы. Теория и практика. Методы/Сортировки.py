@@ -30,3 +30,13 @@ def heapsort(arr):
         arr[i] = min(h)
         h.remove(min(h))
     return arr
+
+
+# Быстрая сортировка
+def quicksort(arr):
+    if not arr:
+        return arr
+    pivot = arr.pop(len(arr) // 2)
+    larr = list(filter(lambda x: x <= pivot, arr))
+    rarr = list(filter(lambda x: x > pivot, arr))
+    return quicksort(larr) + [pivot] + quicksort(rarr)
