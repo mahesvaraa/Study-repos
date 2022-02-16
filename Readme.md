@@ -21,3 +21,6 @@ https://stepik.org/course/431
 
 ### Контесты для учеников проекта "Поколение Python"
 https://stepik.org/course/92473
+
+### ООП на Python от egoroff_channel
+https://stepik.org/course/72969/
