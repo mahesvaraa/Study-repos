@@ -24,3 +24,6 @@ https://stepik.org/course/92473
 
 ### ООП на Python от egoroff_channel
 https://stepik.org/course/72969/
+
+### Автоматизация тестирования с помощью Selenium и Python
+https://stepik.org/course/575
