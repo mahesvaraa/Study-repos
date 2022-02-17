@@ -1,36 +1,34 @@
-from selenium import webdriver
 import time
-import math
+from selenium import webdriver
 from selenium.webdriver.common.by import By
-
+import selenium.webdriver.support.expected_conditions as EC
+from send_answer_to_stepik import send_answer, sendd
 
 def calc(x):
+    import math
     return str(math.log(abs(12 * math.sin(int(x)))))
 
-
 try:
-    link = "http://suninjuly.github.io/execute_script.html"
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium import webdriver
+
     browser = webdriver.Chrome()
-    browser.get(link)
 
-    num1 = browser.find_element(By.ID, "input_value")
-    summ = calc(num1.text)
-    input = browser.find_element(By.ID, "answer").send_keys(summ)
+    browser.get("http://suninjuly.github.io/explicit_wait2.html")
 
-    checkbox = browser.find_element_by_css_selector('[id="robotCheckbox"]')
-    browser.execute_script("return arguments[0].scrollIntoView(true);", checkbox)
-    checkbox.click()
-
-    radiobtn = browser.find_element_by_id('robotsRule')
-    browser.execute_script("return arguments[0].scrollIntoView(true);", radiobtn)
-    radiobtn.click()
-
-    button = browser.find_element_by_css_selector("button.btn")
-    browser.execute_script("return arguments[0].scrollIntoView(true);", button)
+    # говорим Selenium проверять в течение 5 секунд, пока кнопка не станет кликабельной
+    button = browser.find_element(By.ID, 'book')
+    textt = WebDriverWait(browser, 12).until(
+        EC.text_to_be_present_in_element((By.ID, "price"), '$100')
+    )
     button.click()
-
+    num = browser.find_element(By.ID, "input_value").text
+    input_area = browser.find_element(By.ID, "answer").send_keys(calc(num))
+    submit_button = browser.find_element(By.ID, "solve").click()
+    print(browser.switch_to.alert.text.split()[-1])
 finally:
-    # ожидание чтобы визуально оценить результаты прохождения скрипта
+    #если что-то пошло не так можно отменить отправку
     time.sleep(5)
-    # закрываем браузер после всех манипуляций
     browser.quit()
