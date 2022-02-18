@@ -53,6 +53,6 @@ https://github.com/mahesvaraa/Stepik-python/tree/main/Python-OOP-by-egoroff_chan
 
 ### Автоматизация тестирования с помощью Selenium и Python
 
-https://stepik.org/course/575
+[example site]:https://stepik.org/course/575
 
-https://github.com/mahesvaraa/Stepik-python/tree/main/Automation-with-Selenium-and-Python
+[example site]:https://github.com/mahesvaraa/Stepik-python/tree/main/Automation-with-Selenium-and-Python
