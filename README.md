@@ -19,11 +19,9 @@ https://stepik.org/course/100707
 
 https://stepik.org/course/512
 
-![](https://stepik.org/static/frontend/social_fa/color/github.svg) [Python-basics-and-usage](https://github.com/mahesvaraa/Stepik-python/tree/main/Python-basics-and-usage)
+![](https://findicons.com/files/icons/2779/simple_icons/32/github_32_black.png) [Python-basics-and-usage](https://github.com/mahesvaraa/Stepik-python/tree/main/Python-basics-and-usage)
 
 ### Алгоритмы: теория и практика. Методы
-
-<img src="https://your-image-url.type" width="100" height="100">
 
 https://stepik.org/course/217
 
