@@ -8,7 +8,7 @@ def test_guest_should_see_login_link(browser, language):
     # проверяем наличие кнопки
     assert browser.find_element(By.CLASS_NAME, 'btn-add-to-basket'), 'basket button not found'
 
-    # дополнительно проверем ее работу
+    # дополнительно проверим ее работу
     browser.find_element(By.CLASS_NAME, 'btn-add-to-basket').click()
     sleep(2)
     result = browser.find_element(By.XPATH, '//*[@id="messages"]/div[1]/div/strong').text
