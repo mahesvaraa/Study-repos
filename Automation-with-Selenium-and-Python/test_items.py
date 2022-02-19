@@ -5,11 +5,10 @@ from time import sleep
 def test_guest_should_see_login_link(browser, language):
     browser.get(language)
     sleep(30)
+    # проверяем наличие кнопки
+    assert browser.find_element(By.CLASS_NAME, 'btn-add-to-basket'), 'basket button not found'
     browser.find_element(By.CLASS_NAME, 'btn-add-to-basket').click()
     sleep(2)
-
-    # проверяем наличие кнопки
-    assert browser.find_element(By.XPATH, '//*[@id="messages"]/div[1]/div/strong')
 
     # дополнительно проверем ее работу
     result = browser.find_element(By.XPATH, '//*[@id="messages"]/div[1]/div/strong').text
