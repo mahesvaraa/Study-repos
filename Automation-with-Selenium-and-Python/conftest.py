@@ -37,6 +37,13 @@ def browser():
     print("\nstart browser for test..")
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
+    # можно было с этим, но я решил пойти другим путем :)
+    # browser_language = request.config.getoption("language")
+    # options = Options()
+    # options.add_experimental_option('prefs', {'intl.accept_languages':
+    #                                           browser_language})
+
     browser = webdriver.Chrome(options=options)
     yield browser
     print("\nquit browser..")
