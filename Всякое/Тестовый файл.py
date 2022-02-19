@@ -1,29 +1,13 @@
-# arr = [input() for _ in range(int(input()))]
-# search = [input() for _ in range(int(input()))]
-#
-# for string in arr:
-#     res = [word.lower() in string.lower() for word in search]
-#     if all(res):
-#         print(string)
-
-n = int(input())
-arr = []
-for i in range(n):
-    arr.append(input())
-
-m = int(input())
-search = []
-for i in range(m):
-    search.append(input())
+from selenium.webdriver.common.by import By
+from time import sleep
 
 
-for string in arr:                         # для каждого поискового запроса (string)
-    res = []                               # инициализируем пустой список
-    for word in search:                    # для каждого слова (word) в запросе search
-        if word.lower() in string.lower(): # если word в нижнем регистре есть в search в нижнем регистре
-            res.append(True)               # пишем True
-        else:                              # иначе
-            res.append(False)              # пишем False
-
-    if all(res):                           # если все значения в списке True
-        print(string)                      # выводим строку
+def test_guest_should_see_login_link(browser, language):
+    browser.get(language)
+    sleep(2)
+    browser.find_element(By.CLASS_NAME, 'btn-add-to-basket').click()
+    sleep(2)
+    result = browser.find_element(By.XPATH, '//*[@id="messages"]/div[1]/div/strong').text
+    product_name = browser.find_element(By.XPATH, '//*[@id="content_inner"]/article/div[1]/div[2]/h1').text
+    assert result == product_name
+    print(f'Проверка наличия кнопки "добавить в корзину" и ее нажатия на товаре {product_name}')
