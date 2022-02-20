@@ -1,13 +1,16 @@
 from .locators import ProductPageLocators
 from .base_page import BasePage
+from .basket_page import BasketPage
 
 
-class ProductPage(BasePage):
+class ProductPage(BasePage, BasketPage):
     def add_to_basket_button(self):
-        self.should_be_promo_url()
         self.should_be_add_to_basket_button()
         self.click_add_to_basket_button()
+
+    def promo(self):
         self.check_alert_message()
+        self.should_be_promo_url()
 
     def should_be_promo_url(self):
         assert '?promo=newYear' in self.browser.current_url, '"?promo=newYear" not in url'

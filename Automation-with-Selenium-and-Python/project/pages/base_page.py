@@ -1,8 +1,8 @@
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, NoAlertPresentException
 from selenium.webdriver.support import expected_conditions as EC
-import math
-
 from selenium.webdriver.support.wait import WebDriverWait
+from .locators import BasePageLocators
+import math
 
 
 class BasePage:
@@ -52,3 +52,16 @@ class BasePage:
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    def go_to_login_page(self):
+        if self.should_be_login_link():
+            link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+            link.click()
+        else:
+            return False
+
+    def should_be_login_link(self):
+        return self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+
+    def go_to_the_basket(self):
+        self.browser.find_element(*BasePageLocators.OPEN_BASKET).click()
