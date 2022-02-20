@@ -1,13 +1,22 @@
-from selenium.webdriver.common.by import By
-from time import sleep
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
 
-def test_guest_should_see_login_link(browser, language):
-    browser.get(language)
-    sleep(2)
-    browser.find_element(By.CLASS_NAME, 'btn-add-to-basket').click()
-    sleep(2)
-    result = browser.find_element(By.XPATH, '//*[@id="messages"]/div[1]/div/strong').text
-    product_name = browser.find_element(By.XPATH, '//*[@id="content_inner"]/article/div[1]/div[2]/h1').text
-    assert result == product_name
-    print(f'Проверка наличия кнопки "добавить в корзину" и ее нажатия на товаре {product_name}')
+l1 = ListNode(5, ListNode(6, ListNode(4, None)))
+l2 = ListNode(2, ListNode(4, ListNode(3, None)))
+
+
+class Solution:
+
+    def addTwoNumbers(self, l1: [ListNode], l2: [ListNode]) -> [ListNode]:
+        l3 = []
+        n = l1
+        m = l2
+        while n is not None:
+            l3.append(n.val + m.val)
+            n = n.next
+
+
+x = Solution.addTwoNumbers(l1, l2)
