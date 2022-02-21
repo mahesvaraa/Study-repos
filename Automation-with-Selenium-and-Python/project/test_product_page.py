@@ -3,7 +3,7 @@ import time
 import pytest
 
 @pytest.mark.skip
-def test_product_page(browser):
+def test_guest_can_add_product_to_basket(browser):
     url = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207?promo=newYear"
     page = ProductPage(browser, url)
     page.open()
@@ -13,7 +13,7 @@ def test_product_page(browser):
 
 
 @pytest.mark.xfail(reason="is not true, message should be")
-@pytest.mark.skip
+@pytest.mark.skip(reason="is not true, message should be")
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     url = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207?promo=offer9"
     page = ProductPage(browser, url)
