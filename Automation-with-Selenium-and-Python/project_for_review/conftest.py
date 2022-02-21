@@ -61,3 +61,4 @@ def language(request):
         raise pytest.UsageError(f"--language is invalid, supported languages: {joined_browsers}")
 
     yield link
+

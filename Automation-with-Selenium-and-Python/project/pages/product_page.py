@@ -34,7 +34,7 @@ class ProductPage(BasePage, BasketPage):
         self.browser.find_element(*ProductPageLocators.BASKET_BUTTON).click()
 
     def check_alert_message(self):
-        BasePage.solve_quiz_and_get_code(self)
+        self.solve_quiz_and_get_code()
         result = self.browser.find_element(*ProductPageLocators.RESULT_MESSAGE).text
         product_name = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
         assert result == product_name
