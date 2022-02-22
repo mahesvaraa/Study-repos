@@ -1,9 +1,11 @@
+from time import sleep
+
+import pytest
+
 from .pages.base_page import BasePage
+from .pages.basket_page import BasketPage
 from .pages.login_page import LoginPage
 from .pages.product_page import ProductPage
-from .pages.basket_page import BasketPage
-from time import sleep
-import pytest
 
 
 def registration_user(page, need_auth=False):
@@ -43,6 +45,7 @@ class TestUser:
     def test_user_can_add_product_to_basket(self, browser):
         url = 'https://selenium1py.pythonanywhere.com'
         page = ProductPage(browser, url)
+        login_user(page, self.need_auth)
         page.open()
         page.get_product_name()
         page.add_to_basket_button()
@@ -55,6 +58,7 @@ class TestUser:
     def test_user_cant_see_product_in_basket_opened_from_product_page(self, browser):
         url = 'https://selenium1py.pythonanywhere.com'
         page = BasePage(browser, url)
+        login_user(page, self.need_auth)
         page.open()
         page.go_to_the_basket()
         page = BasketPage(browser, browser.current_url)
@@ -62,6 +66,7 @@ class TestUser:
         sleep(3)
 
     def test_user_can_go_to_login_page_from_product_page(self, browser):
+        login_user(page, self.need_auth)
         pass
 
 
