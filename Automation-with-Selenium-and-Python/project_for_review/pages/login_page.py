@@ -19,7 +19,6 @@ class LoginPage(BasePage):
         assert self.is_element_present(*LoginPageLocators.REGISTER_FORM), "register_form does not exist"
 
     def register(self):
-        print(self.browser, self.url)
         self.browser.find_element(*LoginPageLocators.INPUT_REG_EMAIL).send_keys(str(time.time()) + "@fakemail.org")
         self.browser.find_element(*LoginPageLocators.INPUT_REG_PASSWORD).send_keys('1qaz@WSX#EDC')
         self.browser.find_element(*LoginPageLocators.INPUT_REG_PASSWORD2).send_keys('1qaz@WSX#EDC')

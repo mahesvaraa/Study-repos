@@ -27,7 +27,7 @@ class BasePage:
             return False
 
     # элемент исчезает
-    def is_disappeared(self, how, what, timeout=4):
+    def is_disappeared(self, how, what, timeout=2):
         try:
             WebDriverWait(self.browser, timeout, 1, TimeoutException). \
                 until_not(EC.presence_of_element_located((how, what)))
@@ -36,7 +36,7 @@ class BasePage:
             return False
 
     # элемент не появился за 4 сек
-    def is_not_element_present(self, how, what, timeout=4):
+    def is_not_element_present(self, how, what, timeout=2):
         try:
             WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
             return False
