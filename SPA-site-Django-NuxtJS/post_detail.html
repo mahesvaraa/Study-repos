@@ -15,7 +15,7 @@
              alt="logo">
     </a>
     <a href="#" class="navbar-brand">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Nuxt_logo.svg" width="30" height="30" alt="logo">
+        <img src="https://nuxtjs.org/logos/nuxt-square-white.svg" width="30" height="30" alt="logo">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -32,7 +32,7 @@
             </li>
         </ul>
         <form action="" class="form-inline my-2 my-lg-0">
-            <input type="text" class="form-control mr-sm-2" placeholder="Поиск" aria-label="Поиск">
+            <input name="q" type="text" class="form-control mr-sm-2" placeholder="Поиск" aria-label="Поиск">
             <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">Поиск</button>
         </form>
         <a href="#" class="btn btn-outline-light mr-2">Вход</a>
@@ -60,7 +60,7 @@
                     <li class="breadcrumb-item active" aria-current="page">Пост номер 1</li>
                 </ol>
             </nav>
-            <img class="img-fluid rounded " src="img/first_img.jpg" alt="">
+            <img class="img-fluid rounded " src="img/dog.jpg" alt="">
             <hr>
             <p class="lead">Это основной абзац. Это основной абзац. Это основной абзац. Это основной абзац. Это основной
                 абзац. Это основной абзац. Это основной абзац. Это основной абзац. Это основной абзац. Это основной
@@ -71,10 +71,16 @@
             <p>А это отипа остальные абзацы. А это отипа остальные абзацы. А это отипа остальные абзацы. А это отипа
                 остальные абзацы. А это отипа остальные абзацы. А это отипа остальные абзацы. А это отипа остальные
                 абзацы. А это отипа остальные абзацы. А это отипа остальные абзацы.</p>
+            <div class="d-flex justify-content-end">
+                <a href="" class="mr-1 badge badge-info">#NuxtJS</a>
+                <a href="" class="mr-1 badge badge-info">#CSS</a>
+            </div>
             <hr>
-            <p class="lead text-right">Автор:<a href="#"> Вася пупкин</a></p>
+            <div class="d-flex">
+                <div class="mr-auto p-2 lead">Автор: Вася Пупкин</div>
+                <div class="p-2">Опубликовано: 20.10.2020</div>
+            </div>
             <hr>
-            <div class="text-right">Опубликовано 20.10.2020</div>
             <div class="card my-4">
                 <h5 class="card-header">Прокомментируй:</h5>
                 <div class="card-body">
@@ -87,7 +93,7 @@
                 </div>
             </div>
             <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="https://via.placeholder.com/50" alt="">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                 <div class="media-body">
                     <h5 class="mt-0">Дуся Иванова</h5>
                     Мое очень важное мнение по данной статье. Мое очень важное мнение по данной статье. Мое очень важное
@@ -101,33 +107,13 @@
             <div class="card my-4">
                 <h5 class="card-header">Теги</h5>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">Django</a>
-                                </li>
-                                <li>
-                                    <a href="#">VueJS</a>
-                                </li>
-                                <li>
-                                    <a href="#">DRF</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">JavaScript</a>
-                                </li>
-                                <li>
-                                    <a href="#">CSS</a>
-                                </li>
-                                <li>
-                                    <a href="#">NuxtJS</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="d-flex flex-wrap">
+                        <a href="" class="m-2 h5">#CSS</a>
+                        <a href="" class="m-2 h5">#JavaScript</a>
+                        <a href="" class="m-2 h5">#DRF</a>
+                        <a href="" class="m-2 h5">#NuxtJS</a>
+                        <a href="" class="m-2 h5">#Django</a>
+                        <a href="" class="m-2 h5">#VueJS</a>
                     </div>
                 </div>
             </div>
@@ -147,18 +133,21 @@
                         вступительный текст.</p>
                     <a href="#" class="card-link">Ссылка на статью</a>
                 </div>
+                <hr>
                 <div class="card-body">
                     <h5 class="card-title">Три пост</h5>
                     <p class="card-text">Какой-то вступительный текст. Какой-то вступительный текст. Какой-то
                         вступительный текст.</p>
                     <a href="#" class="card-link">Ссылка на статью</a>
                 </div>
+                <hr>
                 <div class="card-body">
                     <h5 class="card-title">Четыре пост</h5>
                     <p class="card-text">Какой-то вступительный текст. Какой-то вступительный текст. Какой-то
                         вступительный текст.</p>
                     <a href="#" class="card-link">Ссылка на статью</a>
                 </div>
+                <hr>
                 <div class="card-body">
                     <h5 class="card-title">Пять пост</h5>
                     <p class="card-text">Какой-то вступительный текст. Какой-то вступительный текст. Какой-то
