@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myblog',
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
+    'taggit'
 ]
 
 MIDDLEWARE = [
@@ -118,7 +119,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-CKEDITOR_UPLOAD_PATH = "uploads/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -154,3 +154,10 @@ CKEDITOR_CONFIGS = {
 }
 
 ###################################
+LOGOUT_REDIRECT_URL = "/"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'Ваша почта'
+EMAIL_HOST_PASSWORD = 'Пароль который вы только тчо получили'
