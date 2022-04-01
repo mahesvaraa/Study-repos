@@ -29,10 +29,12 @@ class PostDetailView(View):
         post = get_object_or_404(Post, url=slug)
         common_tags = Post.tag.most_common()
         last_posts = Post.objects.all().order_by('-id')[:5]
+        comment_form = CommentForm()
         return render(request, 'myblog/post_detail.html', context={
             'post': post,
             'common_tags': common_tags,
-            'last_posts': last_posts
+            'last_posts': last_posts,
+            'comment_form': comment_form
         })
 
     def post(self, request, slug, *args, **kwargs):
