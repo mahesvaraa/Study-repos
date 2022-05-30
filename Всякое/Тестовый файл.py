@@ -1,101 +1,48 @@
-COW = r'''        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-'''
+class Warrior:
+    def __init__(self):
+        self.attack = 5
+        self.health = 50
+        self.is_alive = True
 
 
-def cowsay(a):
-    while '  ' in a:
-        a = a.replace('   ', ' ')
-    a = a.replace(' ', '*')
+class Knight(Warrior):
+    def __init__(self):
+        super().__init__()
+        self.attack += 2
 
-    arr = a.split('*')
-    while len(max(arr, key=len)) > 39:
-        for i in range(len(arr)):
-            if len(arr[i]) > 39:
-                arr[i] = arr[i][:39] + ' ' + arr[i][39:]
 
-        arr = ' '.join(arr).split()
-    arr2 = []
-    pr = ''
-    for i in arr:
-        if len(pr + ' ' + i) <= 40:
-            pr += i + ' '
+def fight(unit_1, unit_2):
+    flag = 'First'
+    while True:
+        if flag == 'First':
+            unit_2.health -= unit_1.attack
+            flag = 'Second'
         else:
-            arr2.append(pr.strip())
-            pr = i + ' '
-    arr2.append(pr.rstrip())
-    arr2 = [i for i in arr2 if i]
-    res = '\n'
-    if len(arr2) > 1:
-        mx = max(arr2, key=len)
-        res += ' ' + "_" * (len(mx) + 2) + '\n'
-        for i in arr2:
-            if i == arr2[0]:
-                res += r'/ ' + i + ' ' * ((len(mx) + 1) - len(i)) + "\\" + '\n'
-            elif i == arr2[-1]:
-                res += r'\ ' + i + ' ' * ((len(mx) + 1) - len(i)) + r'/' + '\n'
-            else:
-                res += r'| ' + i + ' ' * ((len(mx) + 1) - len(i)) + '|' + '\n'
-        res += ' ' + "-" * (len(mx) + 2) + '\n'
-    else:
-        res += ' ' + '_' * (len(arr2[0]) + 2) + '\n'
-        res += r'< ' + arr2[0] + " >" + '\n'
-        res += ' ' + '-' * (len(arr2[0]) + 2) + '\n'
-    res += COW
-    return res
-
-
+            unit_1.health -= unit_2.attack
+            flag = 'First'
+        print(flag, unit_1.health, unit_2.health)
+        if unit_1.health <= 0 or unit_2.health <= 0:
+            break
+    if unit_1.health <= 0:
+        unit_1.is_alive = False
+    if unit_2.health <= 0:
+        unit_2.is_alive = False
+    return unit_1.is_alive
 if __name__ == '__main__':
-    expected_cowsay_one_line = r'''
- ________________
-< Checkio rulezz >
- ----------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-'''
-    expected_cowsay_two_lines = r'''
- ________________________________________
-/ A                                      \
-\ longtextwithonlyonespacetofittwolines. /
- ----------------------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-'''
+    # These "asserts" using only for self-checking and not necessary for auto-testing
 
-    expected_cowsay_many_lines = r'''
- _________________________________________
-/ Lorem ipsum dolor sit amet, consectetur \
-| adipisicing elit, sed do eiusmod tempor |
-| incididunt ut labore et dolore magna    |
-\ aliqua.                                 /
- -----------------------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-'''
+    chuck = Warrior()
+    bruce = Warrior()
+    carl = Knight()
+    dave = Warrior()
+    mark = Warrior()
+    assert fight(chuck, bruce) == True
+    assert fight(dave, carl) == False
+    assert chuck.is_alive == True
+    assert bruce.is_alive == False
+    assert carl.is_alive == True
+    assert dave.is_alive == False
+    assert fight(carl, mark) == False
+    assert carl.is_alive == False
 
-    cowsay_one_line = cowsay('Checkio rulezz')
-    assert cowsay_one_line == expected_cowsay_one_line, 'Wrong answer:\n%s' % cowsay_one_line
-
-    cowsay_two_lines = cowsay('A longtextwithonlyonespacetofittwolines.')
-    assert cowsay_two_lines == expected_cowsay_two_lines, 'Wrong answer:\n%s' % cowsay_two_lines
-
-    cowsay_many_lines = cowsay('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do '
-                               'eiusmod tempor incididunt ut labore et dolore magna aliqua.')
-    assert cowsay_many_lines == expected_cowsay_many_lines, 'Wrong answer:\n%s' % cowsay_many_lines
-
-    enter = input('Введи текст: ')
-    while enter != 0:
-        print(cowsay(enter))
-        enter = input('Введи текст: ')
+    print("Coding complete? Let's try tests!")
