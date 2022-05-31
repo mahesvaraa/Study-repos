@@ -12,7 +12,7 @@ health = 50
 
 attack = 6
 
-![](![img.png](https://d17mnqrx9pmt3e.cloudfront.net/media/missions/media/781a9b7c20ef48ceade25123266c3899/lancer_vs_warrior&knight.png))
+![](https://d17mnqrx9pmt3e.cloudfront.net/media/missions/media/781a9b7c20ef48ceade25123266c3899/lancer_vs_warrior&knight.png)
 
 # пример
 
