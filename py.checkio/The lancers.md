@@ -1,3 +1,92 @@
+# The lancers
+
+Похоже, что Warrior, Knight, Defender и Vampire не справляются с армией врага. Давайте добавим более мощный тип юнитов -
+Lancer. Lancer должен быть наследником класса Warrior и атаковать особым способом - первому, стоящему перед ним
+сопернику, он наносит урон в размере 100% своей атаки (с учетом защиты соперника, если она есть), а сопернику, который
+стоит позади - 50% от нанесенного урона (защита соперника уменьшает наносимый копейщиком урон и, соответственно,
+получаемый вторым юнитом урон).
+
+Базовые параметры класса Lancer:
+
+health = 50
+
+attack = 6
+
+![](![img.png](https://d17mnqrx9pmt3e.cloudfront.net/media/missions/media/781a9b7c20ef48ceade25123266c3899/lancer_vs_warrior&knight.png))
+
+# пример
+
+```python
+chuck = Warrior()
+bruce = Warrior()
+carl = Knight()
+dave = Warrior()
+mark = Warrior()
+bob = Defender()
+mike = Knight()
+rog = Warrior()
+lancelot = Defender()
+eric = Vampire()
+adam = Vampire()
+richard = Defender()
+ogre = Warrior()
+freelancer = Lancer()
+vampire = Vampire()
+
+fight(chuck, bruce) == True
+fight(dave, carl) == False
+chuck.is_alive == True
+bruce.is_alive == False
+carl.is_alive == True
+dave.is_alive == False
+fight(carl, mark) == False
+carl.is_alive == False
+fight(bob, mike) == False
+fight(lancelot, rog) == True
+fight(eric, richard) == False
+fight(ogre, adam) == True
+fight(freelancer, vampire) == True
+freelancer.is_alive == True
+
+my_army = Army()
+my_army.add_units(Defender, 2)
+my_army.add_units(Vampire, 2)
+my_army.add_units(Lancer, 4)
+my_army.add_units(Warrior, 1)
+
+enemy_army = Army()
+enemy_army.add_units(Warrior, 2)
+enemy_army.add_units(Lancer, 2)
+enemy_army.add_units(Defender, 2)
+enemy_army.add_units(Vampire, 3)
+
+army_3 = Army()
+army_3.add_units(Warrior, 1)
+army_3.add_units(Lancer, 1)
+army_3.add_units(Defender, 2)
+
+army_4 = Army()
+army_4.add_units(Vampire, 3)
+army_4.add_units(Warrior, 1)
+army_4.add_units(Lancer, 2)
+
+battle = Battle()
+
+battle.fight(my_army, enemy_army) == True
+battle.fight(army_3, army_4) == False
+```
+
+**Входные данные**: воины и армии.
+
+**Выходные данные**: результат сражения (True или False).
+
+**Как это используется:** Для разработки компьютерных игр.
+
+**Предусловие:** 5 типов солдат
+
+# Solution
+
+```python
 class Warrior:
     def __init__(self):
         self.attack = 5
@@ -200,15 +289,66 @@ class Battle:
 
 
 if __name__ == '__main__':
-    army_1 = Army()
-    army_2 = Army()
-    army_1.add_units(Lancer, 5)
-    army_1.add_units(Vampire, 3)
-    army_1.add_units(Warrior, 4)
-    army_1.add_units(Defender, 2)
-    army_2.add_units(Warrior, 4)
-    army_2.add_units(Defender, 4)
-    army_2.add_units(Vampire, 6)
-    army_2.add_units(Lancer, 5)
+    # These "asserts" using only for self-checking and not necessary for auto-testing
+
+    # fight tests
+    chuck = Warrior()
+    bruce = Warrior()
+    carl = Knight()
+    dave = Warrior()
+    mark = Warrior()
+    bob = Defender()
+    mike = Knight()
+    rog = Warrior()
+    lancelot = Defender()
+    eric = Vampire()
+    adam = Vampire()
+    richard = Defender()
+    ogre = Warrior()
+    freelancer = Lancer()
+    vampire = Vampire()
+
+    assert fight(chuck, bruce) == True
+    assert fight(dave, carl) == False
+    assert chuck.is_alive == True
+    assert bruce.is_alive == False
+    assert carl.is_alive == True
+    assert dave.is_alive == False
+    assert fight(carl, mark) == False
+    assert carl.is_alive == False
+    assert fight(bob, mike) == False
+    assert fight(lancelot, rog) == True
+    assert fight(eric, richard) == False
+    assert fight(ogre, adam) == True
+    assert fight(freelancer, vampire) == True
+    assert freelancer.is_alive == True
+
+    # battle tests
+    my_army = Army()
+    my_army.add_units(Defender, 2)
+    my_army.add_units(Vampire, 2)
+    my_army.add_units(Lancer, 4)
+    my_army.add_units(Warrior, 1)
+
+    enemy_army = Army()
+    enemy_army.add_units(Warrior, 2)
+    enemy_army.add_units(Lancer, 2)
+    enemy_army.add_units(Defender, 2)
+    enemy_army.add_units(Vampire, 3)
+
+    army_3 = Army()
+    army_3.add_units(Warrior, 1)
+    army_3.add_units(Lancer, 1)
+    army_3.add_units(Defender, 2)
+
+    army_4 = Army()
+    army_4.add_units(Vampire, 3)
+    army_4.add_units(Warrior, 1)
+    army_4.add_units(Lancer, 2)
+
     battle = Battle()
-    print(battle.fight(army_1, army_2))
+
+    assert battle.fight(my_army, enemy_army) == True
+    assert battle.fight(army_3, army_4) == False
+    print("Coding complete? Let's try tests!")
+```
