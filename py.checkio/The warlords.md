@@ -1,3 +1,80 @@
+# The warlords
+
+В этой миссии вам необходимо будет добавить класс Warlord(), который должен быть наследником класса Warrior и иметь
+следующие характеристики:
+
+health = 100
+
+attack = 4
+
+defense = 2
+
+Также если Warlord входит в состав армии, то армия получает новый метод - move_units(), который позволяет переставлять
+солдат этой армии для более эффективного сражения. Перестановка производится как перед началом битвы, так и в процессе,
+после смерти каждого союзного солдата. Правила для перестановок следующие:
+
+* Если в армии есть Lancers, они должны быть переставлены в самое начало.
+* Если в армии есть хотя бы 1 Healer, он должен стоять сразу за первым воином и лечить его. Если Healers больше 1, все
+  они также должны быть поставлены сразу за первым Healer.
+* Если в армии больше нет Lancers, но остались другие солдаты, которые могут атаковать (за исключением Warlord) - они
+  также должны быть поставлены на первую позицию, а Healer должен оставаться за ними (если Healers еще остались).
+* Warlord всегда должен находиться в самом конце армии, чтобы иметь возможность наблюдать за сражением и переставлять
+  воинов по мере необходимости.
+* В каждой армии может быть не более 1 Warlord.
+* Если в армии нет Warlord, метод move_units() ей недоступен.
+
+![](https://d17mnqrx9pmt3e.cloudfront.net/media/missions/media/7142dd793d8948b28855b781d0bf64c9/warlord.png)
+
+# пример
+
+```python
+ronald = Warlord()
+heimdall = Knight()
+
+fight(heimdall, ronald) == False
+
+my_army = Army()
+my_army.add_units(Warlord, 1)
+my_army.add_units(Warrior, 2)
+my_army.add_units(Lancer, 2)
+my_army.add_units(Healer, 2)
+
+enemy_army = Army()
+enemy_army.add_units(Warlord, 3)
+enemy_army.add_units(Vampire, 1)
+enemy_army.add_units(Healer, 2)
+enemy_army.add_units(Knight, 2)
+
+my_army.move_units()
+enemy_army.move_units()
+
+type(my_army.units[0]) == Lancer
+type(my_army.units[1]) == Healer
+type(my_army.units[-1]) == Warlord
+
+type(enemy_army.units[0]) == Vampire
+type(enemy_army.units[-1]) == Warlord
+type(enemy_army.units[-2]) == Knight
+
+# 6, not 8, because only 1 Warlord per army could be
+len(enemy_army.units) == 6
+
+battle = Battle()
+
+battle.fight(my_army, enemy_army) == True
+```
+
+**Входные данные:** воины, армии и оружие.
+
+**Выходные данные:** результат сражения (True или False).
+
+**Как это используется:** Для разработки компьютерных игр.
+
+**Предусловие:** 6 типов солдат, 2 типа сражений
+
+# Solution
+
+```python
 class Warrior:
     def __init__(self, attack=5, health=50, defense=0, vampirism=0, heal_power=0):
         self.attack = 5
@@ -352,6 +429,7 @@ class Battle:
             unit_2 = Army(list(filter(lambda x: x.is_alive, unit_2.units)))
         return bool(unit_1.units)
 
+
 if __name__ == '__main__':
     army_1 = Army()
     army_2 = Army()
@@ -369,3 +447,4 @@ if __name__ == '__main__':
     army_2.move_units()
     battle = Battle()
     assert battle.straight_fight(army_1, army_2) == False
+```
