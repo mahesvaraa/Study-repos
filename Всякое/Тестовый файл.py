@@ -1,86 +1,64 @@
-class Parameters:
-    def __init__(self, arg):
-        pi = __import__('math').pi
-        self.figure = None
-        self.side = arg
-        self.formula_area = {
-            'Circle': pi * self.side ** 2,
-            'Triangle': 3 ** 0.5 * self.side ** 2 / 4,
-            'Square': self.side ** 2,
-            'Pentagon': self.side ** 2 * (25 + 10 * 5 ** 0.5) ** 0.5 / 4,
-            'Hexagon': 3 * 3 ** 0.5 * self.side ** 2 / 2,
-            'Cube': 6 * self.side ** 2
-        }
-        self.formula_perimeter = {
-            'Circle': pi * self.side * 2,
-            'Triangle': 3 * self.side,
-            'Square': self.side * 4,
-            'Pentagon': self.side * 5,
-            'Hexagon': self.side * 6,
-            'Cube': self.side * 12
-        }
-
-    def choose_figure(self, Cls):
-        self.figure = type(Cls).__name__
-
-    def perimeter(self):
-        return round(self.formula_perimeter[self.figure], 2)
-
-    def area(self):
-        return round(self.formula_area[self.figure], 2)
-
-    def volume(self):
-        if self.figure == 'Cube':
-            return self.side ** 3
-        else:
-            return 0
+import string
 
 
-class Circle:
-    pass
+class HackerLanguage:
+    def __init__(self):
+        self.text = ''
 
+    def write(self, words):
+        self.words = words
+        for word in self.words:
+            if word == ' ':
+                self.words = self.words.replace(' ', '1000000')
+            elif word in string.ascii_letters:
+                b = bin(ord(word))[2:]
+                self.words = self.words.replace(word, b)
+        self.text += self.words
 
-class Triangle:
-    pass
+    def send(self):
+        return self.text
 
+    def delete(self, number):
+        try:
+            for i in range(number):
+                if self.text[-1] in [".", ":", "!", "?", "$", "%", "@", ' ']:
+                    self.text = self.text[:-1]
+                else:
+                    self.text = self.text[:-7]
+        except IndexError:
+            pass
 
-class Square:
-    pass
-
-
-class Pentagon:
-    pass
-
-
-class Hexagon:
-    pass
-
-
-class Cube:
-    pass
+    def read(self, message):
+        res, i = '', 0
+        while i != len(message):
+            # print(message)
+            if message[i] in [".", ":", "!", "?", "$", "%", "@"]:
+                res += message[i]
+                i += 1
+                continue
+            elif message[i:i + 7] != '1000000':
+                res += chr(int('0' + f'{message[i:i + 7]}', 2))
+            else:
+                res += ' '
+            i += 7
+        return res
 
 
 if __name__ == '__main__':
     # These "asserts" using only for self-checking and not necessary for auto-testing
 
-    figure = Parameters(10)
+    message_1 = HackerLanguage()
+    message_1.write("secrit")
+    message_1.delete(2)
+    message_1.write("et")
+    message_2 = HackerLanguage()
 
-    figure.choose_figure(Circle())
-    assert figure.area() == 314.16
-
-    figure.choose_figure(Triangle())
-    assert figure.perimeter() == 30
-
-    figure.choose_figure(Square())
-    assert figure.area() == 100
-
-    figure.choose_figure(Pentagon())
-    assert figure.perimeter() == 50
-
-    figure.choose_figure(Hexagon())
-    assert figure.perimeter() == 60
-
-    figure.choose_figure(Cube())
-    assert figure.volume() == 1000
-
+    assert message_1.send() == "111001111001011100011111001011001011110100"
+    assert message_2.read("11001011101101110000111010011101100") == "email"
     print("Coding complete? Let's try tests!")
+    message_3 = HackerLanguage()
+    print(message_3.read('1001001100000011000011101101100000011101001101001111001011001011100100...'))
+    message = HackerLanguage()
+    message.delete(10)
+    message.write('I need more % and $ from this deal!')
+    message.send()
