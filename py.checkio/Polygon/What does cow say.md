@@ -66,31 +66,38 @@ COW = r'''        \   ^__^
 
 
 def cowsay(a):
-    while '  ' in a:
-        a = a.replace('   ', ' ')
-    a = a.replace(' ', '*')
+    while a.find('  ') != -1:
+        a = a.replace('  ', ' ')
 
-    arr = a.split('*')
-    while len(max(arr, key=len)) > 39:
-        for i in range(len(arr)):
-            if len(arr[i]) > 39:
-                arr[i] = arr[i][:39] + ' ' + arr[i][39:]
+    if len(a) >= 40:
+        a = a.replace(' ', '©')
+        arr = a.split('©')
 
-        arr = ' '.join(arr).split()
-    arr2 = []
-    pr = ''
-    for i in arr:
-        if len(pr + ' ' + i) <= 40:
-            pr += i + ' '
-        else:
-            arr2.append(pr.strip())
-            pr = i + ' '
-    arr2.append(pr.rstrip())
-    arr2 = [i for i in arr2 if i]
+        while len(max(arr, key=len)) > 39:
+            for i in range(len(arr)):
+                if len(arr[i]) > 39:
+                    arr[i] = arr[i][:39] + ' ' + arr[i][39:]
+            arr = ' '.join(arr).split()
+
+        arr2 = []
+        pr = ''
+
+        for i in arr:
+            if len(pr + ' ' + i) <= 40:
+                pr += i + ' '
+            else:
+                arr2.append(pr.strip())
+                pr = i + ' '
+
+        arr2.append(pr.rstrip())
+        arr2 = [i for i in arr2 if i]
+    else:
+        arr2 = [a]
     res = '\n'
     if len(arr2) > 1:
         mx = max(arr2, key=len)
         res += ' ' + "_" * (len(mx) + 2) + '\n'
+
         for i in arr2:
             if i == arr2[0]:
                 res += r'/ ' + i + ' ' * ((len(mx) + 1) - len(i)) + "\\" + '\n'
@@ -98,6 +105,7 @@ def cowsay(a):
                 res += r'\ ' + i + ' ' * ((len(mx) + 1) - len(i)) + r'/' + '\n'
             else:
                 res += r'| ' + i + ' ' * ((len(mx) + 1) - len(i)) + '|' + '\n'
+
         res += ' ' + "-" * (len(mx) + 2) + '\n'
     else:
         res += ' ' + '_' * (len(arr2[0]) + 2) + '\n'
