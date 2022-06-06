@@ -1,64 +1,50 @@
-import string
+class Text:
 
-
-class HackerLanguage:
     def __init__(self):
         self.text = ''
+        self.font = ''
 
-    def write(self, words):
-        self.words = words
-        for word in self.words:
-            if word == ' ':
-                self.words = self.words.replace(' ', '1000000')
-            elif word in string.ascii_letters:
-                b = bin(ord(word))[2:]
-                self.words = self.words.replace(word, b)
-        self.text += self.words
+    def write(self, text):
+        self.text += text
 
-    def send(self):
-        return self.text
+    def set_font(self, font):
+        self.font = f'[{font}]'
 
-    def delete(self, number):
-        try:
-            for i in range(number):
-                if self.text[-1] in [".", ":", "!", "?", "$", "%", "@", ' ']:
-                    self.text = self.text[:-1]
-                else:
-                    self.text = self.text[:-7]
-        except IndexError:
-            pass
+    def show(self):
+        return self.font + self.text + self.font
 
-    def read(self, message):
-        res, i = '', 0
-        while i != len(message):
-            # print(message)
-            if message[i] in [".", ":", "!", "?", "$", "%", "@"]:
-                res += message[i]
-                i += 1
-                continue
-            elif message[i:i + 7] != '1000000':
-                res += chr(int('0' + f'{message[i:i + 7]}', 2))
-            else:
-                res += ' '
-            i += 7
-        return res
+    def restore(self, saver):
+        self.text = saver[2]
+        self.font = saver[1]
+
+
+class SavedText:
+
+    def __init__(self):
+        self.versions = []
+
+    def save_text(self, version: Text):
+        self.versions.append([version.font + version.text + version.font, version.font, version.text])
+
+    def get_version(self, num):
+        return self.versions[num]
 
 
 if __name__ == '__main__':
     # These "asserts" using only for self-checking and not necessary for auto-testing
 
-    message_1 = HackerLanguage()
-    message_1.write("secrit")
-    message_1.delete(2)
-    message_1.write("et")
-    message_2 = HackerLanguage()
+    text = Text()
+    saver = SavedText()
 
-    assert message_1.send() == "111001111001011100011111001011001011110100"
-    assert message_2.read("11001011101101110000111010011101100") == "email"
+    text.write("At the very beginning ")
+    saver.save_text(text)
+    text.set_font("Arial")
+    saver.save_text(text)
+    text.write("there was nothing.")
+
+    assert text.show() == "[Arial]At the very beginning there was nothing.[Arial]"
+
+    text.restore(saver.get_version(0))
+    assert text.show() == "At the very beginning "
+
     print("Coding complete? Let's try tests!")
-    message_3 = HackerLanguage()
-    print(message_3.read('1001001100000011000011101101100000011101001101001111001011001011100100...'))
-    message = HackerLanguage()
-    message.delete(10)
-    message.write('I need more % and $ from this deal!')
-    message.send()
