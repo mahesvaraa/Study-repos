@@ -63,3 +63,39 @@ if __name__ == '__main__':
     print(create_intervals([]))
 
 ```
+
+```python
+def create_intervals(data):
+    """
+        Create a list of intervals out of set of ints.
+    """
+
+
+    try:
+        j = 0
+        result = [[]]
+        while True:
+            try:
+                next_item = next(data)
+                if not result[j]:
+                    result[j] = [next_item, next_item]
+                else:
+                    if result[j][1] + 1 == next_item:
+                        result[j][1] = next_item
+
+                    else:
+                        j += 1
+                        result.append([next_item, next_item])
+            except StopIteration:
+                break
+        if result == [[]]:
+            raise data
+        return iter(result)
+    except TypeError:
+        return iter([])
+
+if __name__ == '__main__':
+    # These "asserts" using only for self-checking and not necessary for auto-testing
+    print(create_intervals(iter(sorted(list({1, 2, 3, 4, 5, 7, 8, 12})))))
+    print(list(create_intervals([])))
+```
