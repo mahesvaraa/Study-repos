@@ -1,26 +1,33 @@
-def checkio(n, arr):
-    # a = set()
-    cnt, a = 1, []
-    for i in arr:
-        a.append(i)
-        b = []
-        for begin, end in sorted(a):
-            if b and b[-1][1] >= begin - 1:
-                b[-1][1] = max(b[-1][1], end)
-            else:
-                b.append([begin, end])
-        if sum(map(lambda x: x[1] - x[0] + 1, b)) >= n:
-            return cnt
-        cnt += 1
-        print(b, sum(map(lambda x: x[1] - x[0] + 1, b)))
-    else:
-        return -1
+def checkio(cakes):
+    res = list()
+
+    for c in cakes:
+        for a in cakes:
+            for b in cakes:
+                if c != a and c != b and a != b:
+                    if (c[1] - a[1]) * (b[0] - a[0]) - (c[0] - a[0]) * (b[1] - a[1]) == 0:
+                        if sorted((a, b, c)) not in res:
+                            res.append(sorted((a, b, c)))
+
+    res3 = res.copy()
+    for i in res3:
+        for j in res3:
+            k = i
+            i = sorted(i)
+            j = sorted(j)
+            if (i != j and i[0] == j[0] and i[1] == j[1] and i[2] < j[2]) or (
+                    i != j and i[0] < j[0] and i[1] == j[1] and i[2] == j[2]) or (
+                    i != j and i[0] == j[0] and i[1] < j[1] and i[2] == j[2]):
+                try:
+                    res.remove(k)
+                except:
+                    pass
+    return len(res)
 
 
-print(checkio(20, [[1, 2], [20, 30], [25, 28], [5, 10], [4, 21], [1, 6]]))
-# assert checkio(5, [[1, 5], [11, 15], [2, 14], [21, 25]]) == 1, "1st"
-# assert checkio(6, [[1, 5], [11, 15], [2, 14], [21, 25]]) == 2, "2nd"
-# assert checkio(11, [[1, 5], [11, 15], [2, 14], [21, 25]]) == 3, "3rd"
-# assert checkio(16, [[1, 5], [11, 15], [2, 14], [21, 25]]) == 4, "4th"
-# assert checkio(21, [[1, 5], [11, 15], [2, 14], [21, 25]]) == -1, "not enough"
-# assert checkio(1000000011, [[1, 1000000000], [11, 1000000010]]) == -1, "large"
+# These "asserts" using only for self-checking and not necessary for auto-testing
+if __name__ == '__main__':
+    assert checkio([[3, 3], [5, 5], [8, 8], [2, 8], [8, 2]]) == 2
+    assert checkio(
+        [[2, 2], [2, 5], [2, 8], [5, 2], [7, 2], [8, 2],
+         [9, 2], [4, 5], [4, 8], [7, 5], [5, 8], [9, 8]]) == 6
