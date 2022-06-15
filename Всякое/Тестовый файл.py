@@ -1,33 +1,37 @@
-def checkio(cakes):
-    res = list()
+def ryerson_letter_grade(i: int) -> str:
+    if i in range(0, 50):
+        return 'F'
+    elif i in range(50, 53):
+        return 'D-'
+    elif i in range(53, 57):
+        return 'D'
+    elif i in range(57, 60):
+        return 'D+'
+    elif i in range(60, 63):
+        return 'C-'
+    elif i in range(63, 67):
+        return 'C'
+    elif i in range(67, 70):
+        return 'C+'
+    elif i in range(70, 73):
+        return 'B-'
+    elif i in range(73, 77):
+        return 'B'
+    elif i in range(77, 80):
+        return 'B+'
+    elif i in range(80, 85):
+        return 'A-'
+    elif i in range(85, 90):
+        return 'A'
+    elif i >= 90:
+        return 'A+'
 
-    for c in cakes:
-        for a in cakes:
-            for b in cakes:
-                if c != a and c != b and a != b:
-                    if (c[1] - a[1]) * (b[0] - a[0]) - (c[0] - a[0]) * (b[1] - a[1]) == 0:
-                        if sorted((a, b, c)) not in res:
-                            res.append(sorted((a, b, c)))
 
-    res3 = res.copy()
-    for i in res3:
-        for j in res3:
-            k = i
-            i = sorted(i)
-            j = sorted(j)
-            if (i != j and i[0] == j[0] and i[1] == j[1] and i[2] < j[2]) or (
-                    i != j and i[0] < j[0] and i[1] == j[1] and i[2] == j[2]) or (
-                    i != j and i[0] == j[0] and i[1] < j[1] and i[2] == j[2]):
-                try:
-                    res.remove(k)
-                except:
-                    pass
-    return len(res)
-
-
-# These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
-    assert checkio([[3, 3], [5, 5], [8, 8], [2, 8], [8, 2]]) == 2
-    assert checkio(
-        [[2, 2], [2, 5], [2, 8], [5, 2], [7, 2], [8, 2],
-         [9, 2], [4, 5], [4, 8], [7, 5], [5, 8], [9, 8]]) == 6
+    print("Example:")
+    print(ryerson_letter_grade(45))
+
+    # These "asserts" are used for self-checking and not for an auto-testing
+    assert ryerson_letter_grade(45) == "F"
+    assert ryerson_letter_grade(62) == "C-"
+    print("Coding complete? Click 'Check' to earn cool rewards!")
