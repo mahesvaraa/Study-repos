@@ -1,26 +1,19 @@
-from itertools import cycle
+# from collections import Counter
+# def is_merge(s, part1, part2):
+#     print(s, part1, part2)
+#     return Counter(s) == Counter(part1) + Counter(part2)
+#
+# print(is_merge('codewars', 'code', 'wasr'))
+
+def is_merge(s, part1, part2):
+    while s:
+        if s[0] == part1[0]:
+            s, part1 = s[1:], part1[1:]
+        elif s[0] == part2[0]:
+            s, part2 = s[1:], part2[1:]
+        else:
+            break
+    return not s
 
 
-def josephus_survivor(n, k):
-    x = list(range(1, n + 1))
-    iterator = cycle(x.copy())
-    n = 0
-    for i in iterator:
-        if i in x:
-            n += 1
-            if n % k == 0:
-                x.remove(i)
-        if len(x) == 1:
-            return x[0]
-
-
-k = 3
-
-x = list(range(1, 8))
-while x:
-    kk = k - len(x) if k - len(x) > 0 else 0
-    x = x + x[:kk]
-    while len(x) < k:
-        x += x
-    x.pop(2)
-    print(x[3:] + x[:3])
+print(is_merge('codewars', 'cwdr', 'oeas'))
