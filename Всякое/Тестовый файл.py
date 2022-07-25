@@ -1,13 +1,15 @@
-# from collections import Counter
-# def is_merge(s, part1, part2):
-#     print(s, part1, part2)
-#     return Counter(s) == Counter(part1) + Counter(part2)
-#
-# print(is_merge('codewars', 'code', 'wasr'))
-
-def is_merge(s, part1, part2):
-    ss = s.split()
-    print(ss)
+from functools import lru_cache
+from math import factorial
 
 
-print(is_merge('Can we merge it? Yes, we can!', 'an weeit es, w c!', 'C mrge ?Yean'))
+@lru_cache()
+def fac(n):
+    return factorial(n)
+
+
+def going(n):
+    res = [1]
+    for i in range(1, n + 1):
+        res.append(res[i - 1] * i)
+    summ = sum(res) - 1
+    return float(str(summ / fac(n))[:8])
