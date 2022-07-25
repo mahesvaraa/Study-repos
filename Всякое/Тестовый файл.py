@@ -6,14 +6,8 @@
 # print(is_merge('codewars', 'code', 'wasr'))
 
 def is_merge(s, part1, part2):
-    while s:
-        if s[0] == part1[0]:
-            s, part1 = s[1:], part1[1:]
-        elif s[0] == part2[0]:
-            s, part2 = s[1:], part2[1:]
-        else:
-            break
-    return not s
+    ss = s.split()
+    print(ss)
 
 
-print(is_merge('codewars', 'cwdr', 'oeas'))
+print(is_merge('Can we merge it? Yes, we can!', 'an weeit es, w c!', 'C mrge ?Yean'))

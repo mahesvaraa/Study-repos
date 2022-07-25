@@ -8,13 +8,11 @@ Returns a Map<String, int> with the structure {r: 255, g: 153, b: 51} where r, g
 Note: your implementation does not need to support the shorthand form of hexadecimal notation (ie "#FFF")
 
 **Example**
-
 ```python
 "#FF9933" --> {r: 255, g: 153, b: 51}
 ```
 
 # Solution
-
 ```python
 def hex_string_to_RGB(hex_string): 
     d = {}

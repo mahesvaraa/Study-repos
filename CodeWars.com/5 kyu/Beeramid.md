@@ -22,7 +22,6 @@ beeramid(5000, 3); // should == = 16
 ```
 
 # Solution
-
 ```
 def beeramid(bonus, price):
     res, i  = bonus // price, 0

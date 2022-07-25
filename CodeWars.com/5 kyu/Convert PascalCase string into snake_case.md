@@ -8,14 +8,13 @@ Lowercase characters can be numbers. If the method gets a number as input, it sh
 **Examples**
 
 ```python
-"TestController" -->  "test_controller"
-"MoviesAndBooks" -->  "movies_and_books"
-"App7Test" -->  "app7_test"
-1 -->  "1"
+"TestController"  -->  "test_controller"
+"MoviesAndBooks"  -->  "movies_and_books"
+"App7Test"        -->  "app7_test"
+1                 -->  "1"
 ```
 
 # Solution
-
 ```python
 def to_underscore(string):
     string = str(string)

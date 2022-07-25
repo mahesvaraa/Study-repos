@@ -12,18 +12,17 @@ The following are examples of expected output values:
 
 ```python
 
-rgb(255, 255, 255)  # returns FFFFFF
-rgb(255, 255, 300)  # returns FFFFFF
-rgb(0, 0, 0)  # returns 000000
-rgb(148, 0, 211)  # returns 9400D3
+rgb(255, 255, 255) # returns FFFFFF
+rgb(255, 255, 300) # returns FFFFFF
+rgb(0,0,0) # returns 000000
+rgb(148, 0, 211) # returns 9400D3
 
 ```
 
 # Solution
-
 ```python
 def rgb(r, g, b):
     r, g, b = r if r >= 0 else 0, g if g >= 0 else 0, b if b >= 0 else 0
     r, g, b = r if r <= 255 else 255, g if g <= 255 else 255, b if b <= 255 else 255
-    return ''.join(map(lambda x: hex(x)[2:].upper().rjust(2, '0'), [r, g, b]))
+    return ''.join(map(lambda x: hex(x)[2:].upper().rjust(2, '0'), [r,g,b]))
 ```
