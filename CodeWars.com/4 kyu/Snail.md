@@ -23,6 +23,7 @@ snail(array) #=> [1,2,3,4,5,6,7,8,9]
 ```
 
 This image will illustrate things more clearly:
+
 ![](http://www.haan.lu/files/2513/8347/2456/snail.png)
 
 # Solution

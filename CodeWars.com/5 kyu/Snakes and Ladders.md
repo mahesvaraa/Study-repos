@@ -9,6 +9,7 @@ more players on a gameboard having numbered, gridded squares. A number of "ladde
 board, each connecting two specific board squares. (Source Wikipedia)
 
 ![](https://raw.githubusercontent.com/adrianeyre/codewars/master/Ruby/Authored/snakesandladders.jpg)
+
 **Task**
 
 Your task is to make a simple class called SnakesLadders. The test cases will call the method play(die1, die2)
@@ -16,6 +17,7 @@ independantly of the state of the game or the player turn. The variables die1 an
 are both integers between 1 and 6. The player will move the sum of die1 and die2.
 
 **The Board**
+
 ![](https://raw.githubusercontent.com/adrianeyre/codewars/master/Ruby/Authored/snakesandladdersboard.jpg)
 
 **Rules**

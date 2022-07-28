@@ -9,6 +9,7 @@ The cake locations are represented as a list of coordinates. A coordinate is a l
 the rows.
 
 ![](https://d17mnqrx9pmt3e.cloudfront.net/media/missions/media/3a217113067647379f960724833aab50/cakes-rows.png)
+
 **Input**: Сoordinates as a list of lists with two integers.
 
 **Output**: The quantity of rows as an integer.

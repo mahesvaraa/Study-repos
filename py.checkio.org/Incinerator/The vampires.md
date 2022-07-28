@@ -12,6 +12,7 @@ health = 40 attack = 4 vampirism = 50%
 
 Вы должны хранить атрибут вампиризма как целое число (50 на 50%). Это необходимо для того, чтобы данное решение
 развивалось в соответствии с одной из следующих задач этой саги.
+
 ![](https://d17mnqrx9pmt3e.cloudfront.net/media/missions/media/e698caf5f3e74bc499d4c1d8df4a7186/defender_vs_vampire.png)
 
 # пример
