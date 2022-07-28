@@ -1,15 +1,5 @@
-from functools import lru_cache
-from math import factorial
+def sort_me(courses):
+    return sorted(courses, key=lambda x: (int(x.split('-')[1]), x.split('-')[0], len(x.split('-')[0])))
 
 
-@lru_cache()
-def fac(n):
-    return factorial(n)
-
-
-def going(n):
-    res = [1]
-    for i in range(1, n + 1):
-        res.append(res[i - 1] * i)
-    summ = sum(res) - 1
-    return float(str(summ / fac(n))[:8])
+print(sort_me(['aeb-1305', 'site-1305', 'play-1215', 'web-1304', 'site-1304', 'beb-1305']))

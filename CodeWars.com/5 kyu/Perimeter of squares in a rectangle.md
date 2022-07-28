@@ -7,6 +7,7 @@ perimeters of these squares is : 4 * (1 + 1 + 2 + 3 + 5 + 8) = 4 * 20 = 80
 
 Could you give the sum of the perimeters of all the squares in a rectangle when there are n + 1 squares disposed in the
 same manner as in the drawing:
+
 ![](http://i.imgur.com/EYcuB1wm.jpg)
 
 **Hint**:
