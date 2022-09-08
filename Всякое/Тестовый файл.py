@@ -1,4 +1,2 @@
-s = input()
-s = s.replace(' ', '').replace('+', ' ').replace('-',' -')
-print(sum(map(int, s.split())))
-
+print(True == 1)
+print(False == 0)

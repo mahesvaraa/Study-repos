@@ -1,4 +1,4 @@
-# Decimal to Factorial and Back
+sel# Decimal to Factorial and Back
 
 https://www.codewars.com/kata/54e320dcebe1e583250008fd
 
