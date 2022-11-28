@@ -13,7 +13,7 @@
             <nav aria-label="breadcrumb" class="mt-4">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Контакты</li>
+                    <li aria-current="page" class="breadcrumb-item active">Контакты</li>
                 </ol>
             </nav>
             <p class="lead">Чтобы связаться со мной заполните форму обратной связи</p>
@@ -32,18 +32,18 @@
             </div>
             {% endfor %}
             {% endif %}
-            <form name="contact-form" method="post" action="{% url 'contact' %}">
+            <form action="{% url 'contact' %}" method="post" name="contact-form">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="md-form mb-0">
-                            <label for="name" class="sr-only">Ваше имя</label>
+                            <label class="sr-only" for="name">Ваше имя</label>
                             {{ form.name }}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="md-form mb-0">
-                            <label for="email" class="sr-only">Ваша почта</label>
+                            <label class="sr-only" for="email">Ваша почта</label>
                             {{ form.email }}
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <div class="md-form mb-0">
-                            <label for="subject" class="sr-only">Тема</label>
+                            <label class="sr-only" for="subject">Тема</label>
                             {{ form.subject }}
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <div class="md-form">
-                            <label for="message" class="sr-only">Ваше сообщение</label>
+                            <label class="sr-only" for="message">Ваше сообщение</label>
                             {{ form.message }}
                         </div>
                     </div>

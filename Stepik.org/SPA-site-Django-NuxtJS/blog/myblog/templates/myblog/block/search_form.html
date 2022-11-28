@@ -1,11 +1,11 @@
 {% load static %}
 <div class="container-fluid home-slider">
-    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+    <div class="carousel slide" data-ride="carousel" id="carouselExampleCaptions">
         <div class="carousel-inner">
             <div class="carousel-item active" style="background-color: #343a40!important">
                 <div class="carousel-caption d-none d-md-block">
-                    <form action="{% url 'search_results' %}" method="get" class="my-2 my-lg-0">
-                        <input name="q" type="text" class="form-control" placeholder="Поиск" aria-label="Поиск">
+                    <form action="{% url 'search_results' %}" class="my-2 my-lg-0" method="get">
+                        <input aria-label="Поиск" class="form-control" name="q" placeholder="Поиск" type="text">
                         <button class="btn btn-outline-success mt-3" type="submit">Поиск</button>
                     </form>
                 </div>

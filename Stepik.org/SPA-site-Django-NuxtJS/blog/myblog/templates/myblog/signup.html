@@ -18,7 +18,7 @@
     </div>
     {% endfor %}
     {% endif %}
-    <form class="form-signin" method="post" action="{% url 'signup' %}">
+    <form action="{% url 'signup' %}" class="form-signin" method="post">
         {% csrf_token %}
         <h1 class="h3 mb-3 mt-3 font-weight-normal">Для регистрации укажите имя пользователя и пароль</h1>
         <label for="inputUsername">Имя пользователя</label>

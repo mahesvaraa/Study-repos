@@ -13,17 +13,17 @@
             <nav aria-label="breadcrumb" class="mt-4">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ post.h1 }}</li>
+                    <li aria-current="page" class="breadcrumb-item active">{{ post.h1 }}</li>
                 </ol>
             </nav>
-            <img class="img-fluid rounded " src="{{ post.image.url }}" alt="">
+            <img alt="" class="img-fluid rounded " src="{{ post.image.url }}">
             <hr>
             <p class="lead">
                 {{ post.content|safe }}
             </p>
             <div class="d-flex justify-content-end">
                 {% for tag in post.tag.all %}
-                <a href="{% url 'tag' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                <a class="mr-1 badge badge-info" href="{% url 'tag' tag.slug %}">#{{ tag }}</a>
                 {% endfor %}
             </div>
             <hr>

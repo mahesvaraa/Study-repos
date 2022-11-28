@@ -1,35 +1,35 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <a href="#" class="navbar-brand">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" width="30" height="30"
-             alt="logo">
+    <a class="navbar-brand" href="#">
+        <img alt="logo" height="30" src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"
+             width="30">
     </a>
-    <a href="#" class="navbar-brand">
-        <img src="https://nuxtjs.org/logos/nuxt-square-white.svg" width="30" height="30" alt="logo">
+    <a class="navbar-brand" href="#">
+        <img alt="logo" height="30" src="https://nuxtjs.org/logos/nuxt-square-white.svg" width="30">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a href="{% url 'home' %}" class="nav-link">Главная</a>
+                <a class="nav-link" href="{% url 'home' %}">Главная</a>
             </li>
             <li class="nav-item ">
-                <a href="{% url 'contact' %}" class="nav-link">Контакты</a>
+                <a class="nav-link" href="{% url 'contact' %}">Контакты</a>
             </li>
         </ul>
-        <form action="{% url 'search_results' %}" method="get" class="form-inline my-2 my-lg-0">
-            <input name="q" type="text" class="form-control mr-sm-2" placeholder="Поиск" aria-label="Поиск">
+        <form action="{% url 'search_results' %}" class="form-inline my-2 my-lg-0" method="get">
+            <input aria-label="Поиск" class="form-control mr-sm-2" name="q" placeholder="Поиск" type="text">
             <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">Поиск</button>
         </form>
         {% if user.is_authenticated %}
         <span class="navbar-text mr-2">{{ user }}</span>
-        <a href="{% url 'signout' %}" class="btn btn-outline-light">Выход</a>
+        <a class="btn btn-outline-light" href="{% url 'signout' %}">Выход</a>
         {% else %}
-        <a href="{% url 'signin' %}" class="btn btn-outline-light mr-2">Вход</a>
-        <a href="{% url 'signup' %}" class="btn btn-outline-light mr-2">Регистрация</a>
+        <a class="btn btn-outline-light mr-2" href="{% url 'signin' %}">Вход</a>
+        <a class="btn btn-outline-light mr-2" href="{% url 'signup' %}">Регистрация</a>
         {% endif %}
     </div>
 </nav>

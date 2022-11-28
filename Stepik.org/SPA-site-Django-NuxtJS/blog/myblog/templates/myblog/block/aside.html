@@ -4,7 +4,7 @@
         <div class="card-body">
             <div class="d-flex flex-wrap">
                 {% for mt in common_tags %}
-                <a href="{% url 'tag' mt.slug %}" class="m-2 h5">#{{mt}}</a>
+                <a class="m-2 h5" href="{% url 'tag' mt.slug %}">#{{mt}}</a>
                 {% endfor %}
             </div>
         </div>
@@ -16,9 +16,9 @@
         {% for lp in last_posts %}
         <div class="card-body">
             <h5 class="card-title">{{ lp.h1 }}</h5>
-            <img src="{{ lp.image.url }}" alt="" class="card-img-top">
+            <img alt="" class="card-img-top" src="{{ lp.image.url }}">
             {{ lp.description|safe|truncatechars:100 }}
-            <a href="{% url 'post_detail' lp.url%}" class="card-link">Подробнее</a>
+            <a class="card-link" href="{% url 'post_detail' lp.url%}">Подробнее</a>
             <hr>
         </div>
 
