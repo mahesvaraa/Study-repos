@@ -17,6 +17,7 @@ def is_element_appeared(driver, locator, timeout=10):
     return True
 
 def send_all_checkboxes(driver):
+
     for i in driver.find_elements_by_css_selector('div.quiz-plugin span.s-checkbox__circle')[:4]:
         i.click()
     driver.find_element_by_css_selector('button.submit-submission').click()

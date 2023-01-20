@@ -28,18 +28,17 @@ def transform(r, g, b):
     #     print(file)
     r, g, b = (max(r, g, b), g, min(r, g, b))
     avg_v = r * 0.2126 + g * 0.7152 + b * 0.0722
-    # r += (r - avg_v) * 0
+    #r += (r - avg_v) * 0
     g += (g - avg_v) * 0.6
-    # b += (b - avg_v) * 0.6
+    #b += (b - avg_v) * 0.6
     return r, g, b
-
 
 lut = Color3DLUT.generate(17, transform)
 for (dirName, subDirs, fileNames) in os.walk(r'E:\Новая папка\Новая папка (2)\Resources2'):
     for file in fileNames:
         if file.endswith(('.png', '.jpg')):
             try:
-                image = Image.open(os.path.join(dirName, file))  # .convert('RGB')
+                image = Image.open(os.path.join(dirName, file))#.convert('RGB')
                 pixels = image.load()
             except:
                 image = Image.open(os.path.join(dirName, file)).convert('RGB')
