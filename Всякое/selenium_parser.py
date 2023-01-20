@@ -17,7 +17,7 @@ def is_element_appeared(driver, locator, timeout=10):
     return True
 
 def send_all_checkboxes(driver):
-    for i in driver.find_elements_by_css_selector('div.quiz-plugin span.s-checkbox__circle'):
+    for i in driver.find_elements_by_css_selector('div.quiz-plugin span.s-checkbox__circle')[:4]:
         i.click()
     driver.find_element_by_css_selector('button.submit-submission').click()
 
@@ -29,7 +29,7 @@ browser = webdriver.Chrome()
 browser.implicitly_wait(10)
 wait = WebDriverWait(browser, 15)
 
-task_link = 'https://stepik.org/lesson/13240/step/7?unit=3426'
+task_link = 'https://stepik.org/lesson/113119/step/11?unit=87650'
 
 # Authorization on Stepik
 browser.get('https://stepik.org/catalog?auth=login')
@@ -46,7 +46,7 @@ time.sleep(3)
 browser.get(task_link)
 is_element_appeared(browser, (By.CSS_SELECTOR, 'div.attempt'))
 send_all_checkboxes(browser)
-tries_amount = 10
+tries_amount = 30
 while tries_amount and is_element_appeared(browser, (By.CSS_SELECTOR, 'span.attempt-message_wrong')):
     browser.find_element_by_css_selector('button.success').click()
     if is_element_appeared(browser,(By.CSS_SELECTOR, 'div.attempt-wrapper.no_submission.choice')):
