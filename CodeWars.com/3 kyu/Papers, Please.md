@@ -155,227 +155,235 @@ If you enjoyed this kata, be sure to check out my other katas.
 # Solution
 
 ```python
-from datetime import timedelta, date
 import re
+from collections import namedtuple
+from datetime import datetime, timedelta
+
+IDCard = namedtuple("IDCard", "name dob height weight")
+AccessPermit = namedtuple("AccessPermit", "name nation id purpose duration height weight exp")
+VaccinationCertificate = namedtuple("VaccinationCertificate", "name id vaccines")
+DiplomaticAuthorization = namedtuple("DiplomaticAuthorization", "name nation id access")
+AsylumGrant = namedtuple("AsylumGrant", "name nation id dob height weight exp")
+Passport = namedtuple("Passport", "id nation name dob sex iss exp")
+WorkPass = namedtuple("WorkPass", "name field exp")
+
+
+def to_date(date_str):
+    return datetime.strptime(date_str, "%Y.%m.%d")
 
 
 class Entrance:
+    def __init__(self):
+        self.id_card = None
+        self.access_permit = None
+        self.certificate_of_vaccination = None
+        self.diplomatic_authorization = None
+        self.grant_of_asylum = None
+        self.passport = None
+        self.work_pass = None
+        self.docs = []
 
-    def __init__(self, documents):
-        self.name = set()
-        self.id = set()
-        self.dob = set()
-        self.nation = set()
-        # passport
-        self.passport = False
-        self.passport_exp = None
-        # id card
-        self.id_card = False
-        # access permit
-        self.access_permit = False
-        self.purpose = None
-        self.access_permit_exp = None
-        self.access = False
-        # work pass
-        self.work_pass = False
-        self.work_pass_exp = None
-        # vaccination
-        self.certificate_of_vaccination = False
-        self.vacs = []
-        # grant of asylum
-        self.grant_of_asylum = False
-        self.grant_of_asylum_exp = None
-        # diplomatic auth
-        self.diplomatic_authorization = False
+    def save_info(self, documents):
+        for doc_type, doc_string in documents.items():
+            info = re.findall(r"(?<=: ).+", doc_string)
 
-        self.documents = {}
+            if doc_type == "ID_card":
+                self.id_card = IDCard(*info)
+                
+            elif doc_type == "access_permit":
+                self.access_permit = AccessPermit(*info)
+                
+            elif doc_type == "certificate_of_vaccination":
+                self.certificate_of_vaccination = VaccinationCertificate(*info)
+                
+            elif doc_type == "diplomatic_authorization":
+                self.diplomatic_authorization = DiplomaticAuthorization(*info)
+                
+            elif doc_type == "grant_of_asylum":
+                if len(info) == 6:
+                    info.insert(3, None)
+                self.grant_of_asylum = AsylumGrant(*info)
+                
+            elif doc_type == "passport":
+                self.passport = Passport(*info)
+                
+            elif doc_type == "work_pass":
+                self.work_pass = WorkPass(*info)
 
-        for doc in documents:
-            self.documents[doc] = {i.split(':')[0].strip(): i.split(':')[1].strip() for i in documents[doc].split('\n')}
+            self.docs = [
+                self.id_card,
+                self.access_permit,
+                self.certificate_of_vaccination,
+                self.diplomatic_authorization,
+                self.grant_of_asylum,
+                self.passport,
+                self.work_pass,
+            ]
 
-        self.passport = self.documents.get('passport', False)
-        if self.passport:
-            self.id.add(self.passport['ID#'])
-            self.dob.add(self.passport['DOB'])
-            self.name.add(self.passport['NAME'])
-            self.nation.add(self.passport['NATION'])
-            self.passport_exp = self.passport['EXP']
+    @property
+    def name(self):
+        return {doc.name for doc in self.docs if doc}
 
-        self.access_permit = self.documents.get('access_permit', False)
-        if self.access_permit:
-            self.id.add(self.access_permit['ID#'])
-            self.name.add(self.access_permit['NAME'])
-            self.access_permit_exp = self.access_permit['EXP']
-            self.purpose = self.access_permit['PURPOSE']
-            self.nation.add(self.access_permit['NATION'])
+    @property
+    def dob(self):
+        return {doc.dob for doc in self.docs if doc and hasattr(doc, "dob") and doc.dob}
 
-        self.work_pass = self.documents.get('work_pass', False)
-        if self.work_pass:
-            self.name.add(self.work_pass['NAME'])
-            self.work_pass_exp = self.work_pass['EXP']
+    @property
+    def nation(self):
+        return {doc.nation for doc in self.docs if doc and hasattr(doc, "nation")}
 
-        self.diplomatic_authorization = self.documents.get('diplomatic_authorization', False)
-        if self.diplomatic_authorization:
-            self.id.add(self.diplomatic_authorization['ID#'])
-            self.name.add(self.diplomatic_authorization['NAME'])
-            self.nation.add(self.diplomatic_authorization['NATION'])
-            self.access = 'Arstotzka' in self.diplomatic_authorization['ACCESS']
+    @property
+    def id(self):
+        return {doc.id for doc in self.docs if doc and hasattr(doc, "id")}
 
-        self.certificate_of_vaccination = self.documents.get('certificate_of_vaccination', False)
-        if self.certificate_of_vaccination:
-            self.id.add(self.certificate_of_vaccination['ID#'])
-            self.name.add(self.certificate_of_vaccination['NAME'])
-            self.vacs = self.certificate_of_vaccination['VACCINES'].split(', ')
-
-        self.grant_of_asylum = self.documents.get('grant_of_asylum', False)
-        if self.grant_of_asylum:
-            self.id.add(self.grant_of_asylum['ID#'])
-            self.name.add(self.grant_of_asylum['NAME'])
-            self.nation.add(self.grant_of_asylum['NATION'])
-            self.grant_of_asylum_exp = self.grant_of_asylum['EXP']
-
-        self.id_card = self.documents.get('ID_card', False)
-        if self.id_card:
-            self.dob.add(self.id_card['DOB'])
-            self.name.add(self.id_card['NAME'])
-
-
-START_DATE = date(1982, 11, 21)
+    @property
+    def have_access(self):
+        return any(
+            (
+                self.access_permit,
+                self.grant_of_asylum,
+                self.diplomatic_authorization and "Arstotzka" in self.diplomatic_authorization.access,
+            )
+        )
 
 
 class Inspector:
-    START_DATE += timedelta(days=1)
+    current_date = datetime.strptime("1982.11.22", "%Y.%m.%d")
 
     def __init__(self):
-        self.rights = []
-        self.allow_nations = []
-        self.deny_nations = []
-        self.wanted = []
-
-        self.requirements = {
-            'passport': False,
-            'certificate_of_vaccination': False,
-            'ID_card': False,
-            'access_permit': False,
-            'work_pass': False,
-            'grant_of_asylum': False,
-            'diplomatic_authorization': False
-        }
-        self.vaccinations = {
-            'Arstotzka': set(),
-            'Antegria': set(),
-            'Impor': set(),
-            'Kolechia': set(),
-            'Obristan': set(),
-            'Republia': set(),
-            'United Federation': set()
-        }
+        self.rules = []
+        self.wanted_by_state = []
+        self.foreigners_require = []
+        self.require_vaccination = []
+        
+        self.allow_citizens = set()
+        
+        self.wanted_by_state_date = None
+        self.citizens_require_id_card = False
+        self.entrants_require_passport = False
+        self.workers_require_work_pass = False
+        self.foreigners_require_access_permit = False
 
     def receive_bulletin(self, bulletin):
-        self.rights += bulletin.split('\n')
-        self.requirements['passport'] = 'Entrants require passport' in self.rights
+        self.rules = bulletin.split("\n")
 
-        """Updates to the list of nations"""
-        allow_nations = list(filter(lambda x: 'Allow citizens of ' in x or 'Deny citizens of ' in x, self.rights))
-        for i in allow_nations:
-            if 'Allow citizens of ' in i:
-                self.allow_nations += i[18:].split(', ')
-            if 'Deny citizens of ' in i:
-                self.allow_nations = list(set(filter(lambda x: x not in i[17:].split(', '), self.allow_nations)))
+        for string in self.rules:
+            match = re.search(r"Allow citizens of (.+)", string)
+            if match:
+                self.allow_citizens |= {country.strip() for country in match.group(1).split(",")}
+                
+            match = re.search(r"Deny citizens of (.+)", string)
+            if match:
+                self.allow_citizens -= {country.strip() for country in match.group(1).split(",")}
+                
+            match = re.search(r"Entrants require (.+) vaccination", string)
+            if match:
+                self.require_vaccination.append(match.group(1))
+                
+            match = re.search(r"Entrants no longer require (.+) vaccination", string)
+            if match:
+                self.require_vaccination = list(set(self.require_vaccination) - set(match.group(1)))
+                
+            match = re.search(r"Wanted by the State: (.+)", string)
+            if match:
+                self.wanted_by_state.append(", ".join(match.group(1).split()[::-1]))
+                self.wanted_by_state_date = self.current_date
 
-        """Updates to required documents"""
-        self.requirements['access_permit'] = 'Foreigners require access permit' in self.rights
-        self.requirements['ID_card'] = 'Citizens of Arstotzka require ID card' in self.rights
-        self.requirements['work_pass'] = 'Workers require work pass' in self.rights
-
-        """Updates to required vaccinations"""
-        citizens_vac = list(filter(lambda x: 'Citizens of ' in x and 'vaccination' in x, self.rights))
-        entrants_vac = list(filter(lambda x: 'Entrants require ' in x and 'vaccination' in x, self.rights))
-        no_citizens_vac = list(filter(lambda x: 'Citizens of ' in x and 'no longer' in x, self.rights))
-        no_entrants_vac = list(filter(lambda x: 'Entrants ' in x and 'no longer' in x, self.rights))
-
-        if citizens_vac:
-            for vact in citizens_vac:
-                vac = re.search(r'(?<=require )(.+?)(?= vaccination)', vact)[0]
-                res = re.search(r'(?<=Citizens of )(.+?)(?= (no longer require|require))', vact)
-                countries_vac = res[0].split(', ')
-                for country in countries_vac:
-                    self.vaccinations[country].add(vac)
-        if entrants_vac:
-            for vact in entrants_vac:
-                vac = re.search(r'(?<=require )(.+?)(?= vaccination)', vact)[0]
-                for country in self.vaccinations.keys():
-                    self.vaccinations[country].add(vac)
-
-        if no_citizens_vac:
-            for vact in no_citizens_vac:
-                vac = re.search(r'(?<=require )(.+?)(?= vaccination)', vact)[0]
-                res = re.search(r'(?<=Citizens of )(.+?)(?= (no longer require))', vact)
-                no_citizens_vac = res[0].split(', ')
-                for country in no_citizens_vac:
-                    self.vaccinations[country].remove(vac)
-
-        if no_entrants_vac:
-            for vact in no_entrants_vac:
-                vac = re.search(r'(?<=require )(.+?)(?= vaccination)', vact)[0]
-                for country in self.vaccinations.keys():
-                    self.vaccinations[country].remove(vac)                    
-        self.requirements['certificate_of_vaccination'] = any(self.vaccinations.values())
-        
-        """Update to a currently wanted criminal"""
-        wanted_people = list(filter(lambda x: "Wanted by the State: " in x, self.rights))
-        self.wanted = list(map(lambda x: x[21:], wanted_people))
-        self.wanted += list(map(lambda x: x.split(' ')[1] + ', ' + x.split(' ')[0], self.wanted))
+            match = re.search(r"Foreigners require (.+) vaccination", string)
+            if match:
+                self.foreigners_require.append(match.group(1))
+                
+            match = re.search(r"Foreigners no longer require (.+) vaccination", string)            
+            if match:
+                self.foreigners_require = list(set(self.foreigners_require) - set(match.group(1)))
+                
+            match = re.search(r"Foreigners no longer require (.+) vaccination", string)
+            if match:
+                self.foreigners_require = list(set(self.foreigners_require) - set(match.group(1)))
+                
+            match = re.search(r"Entrants no longer require (.+) vaccination", string)
+            if match:
+                self.require_vaccination = list(set(self.require_vaccination) - set(match.group(1)))
+                
+            if "Citizens of Arstotzka require ID card" in string:
+                self.citizens_require_id_card = True
+                
+            if "Entrants require passport" in string:
+                self.entrants_require_passport = True
+                
+            if "Workers require work pass" in string:
+                self.workers_require_work_pass = True
+                
+            if "Foreigners require access permit" in string:
+                self.foreigners_require_access_permit = True
+        Inspector.current_date += timedelta(days=1)
 
     def inspect(self, entrance):
-        entrance = Entrance(entrance)
-        try:
-            assert all(map(lambda x: x not in self.wanted, entrance.name)), 'Detainment: Entrant is a wanted criminal.'
-            assert entrance.passport and not all((entrance.grant_of_asylum, entrance.diplomatic_authorization, entrance.access_permit)) , 'Entry denied: missing required passport.'
-            if 'Arstotzka' in entrance.nation:
-                assert all(map(lambda x: x not in self.wanted, entrance.name)), 'Detainment: Entrant is a wanted criminal.'
-                assert len(entrance.name) == 1, 'Detainment: name mismatch.'
-                assert len(entrance.dob) == 1, 'Detainment: date of birth mismatch.'
-                assert len(entrance.nation) == 1, 'Detainment: nationality mismatch.'
-                assert len(entrance.id) == 1, 'Detainment: ID number mismatch.'
-                assert entrance.passport, 'Entry denied: missing required passport.'
-                assert START_DATE < date(*map(int, entrance.passport_exp.split('.'))), 'Entry denied: passport expired.'
+        _entrance = Entrance()
+        _entrance.save_info(entrance)
+        print(self.rules, _entrance.docs)
+
+        if self.entrants_require_passport and not _entrance.passport and not _entrance.id_card:
+            return "Entry denied: missing required passport."
+
+        if len(_entrance.id) != 1:
+            return "Detainment: ID number mismatch."
+
+        if _entrance.name & set(self.wanted_by_state):
+            return "Detainment: Entrant is a wanted criminal."
+
+        if len(_entrance.dob) != 1:
+            return "Detainment: date of birth mismatch."
+
+        if len(_entrance.name) != 1:
+            return "Detainment: name mismatch."
+
+        if len(_entrance.nation) != 1:
+            return "Detainment: nationality mismatch."
+
+        if to_date(_entrance.passport.exp) < Inspector.current_date:
+            return "Entry denied: passport expired."
+
+        if self.entrants_require_passport and not _entrance.passport:
+            return "Entry denied: missing required passport."
+
+        if _entrance.passport.nation == "Arstotzka":
+            if self.citizens_require_id_card and not _entrance.id_card:
+                return "Entry denied: missing required ID card."
+            if self.require_vaccination:
+                if not _entrance.certificate_of_vaccination:
+                    return "Entry denied: missing required certificate of vaccination."
+                if not set(self.require_vaccination).issubset(_entrance.certificate_of_vaccination.vaccines.split(", ")):
+                    return "Entry denied: missing required vaccination."
+
+        else:
+            if self.foreigners_require_access_permit and not _entrance.have_access:
+                if _entrance.diplomatic_authorization and "Arstotzka" not in _entrance.diplomatic_authorization.access:
+                    return "Entry denied: invalid diplomatic authorization."
+                return "Entry denied: missing required access permit."
+            
+            if _entrance.access_permit and to_date(_entrance.access_permit.exp) < Inspector.current_date:
+                return "Entry denied: access permit expired."
+            
+            if _entrance.grant_of_asylum and to_date(_entrance.grant_of_asylum.exp) < Inspector.current_date:
+                return "Entry denied: grant of asylum expired."
+            
+            if _entrance.work_pass and to_date(_entrance.work_pass.exp) < Inspector.current_date:
+                return "Entry denied: work pass expired."
+
+            if _entrance.nation.pop() not in self.allow_citizens:
+                return "Entry denied: citizen of banned nation."
+
+            if self.workers_require_work_pass and _entrance.access_permit and _entrance.access_permit.purpose == "WORK" and not _entrance.work_pass:
+                return "Entry denied: missing required work pass."
+
+            if self.foreigners_require:
+                if not _entrance.certificate_of_vaccination:
+                    return "Entry denied: missing required certificate of vaccination."
                 
-                if self.requirements.get('ID_card', False):
-                    assert bool(entrance.id_card) == self.requirements[
-                        'ID_card'], 'Entry denied: missing required ID card.'
+                if not set(self.foreigners_require).issubset(_entrance.certificate_of_vaccination.vaccines.split(", ")):
+                    return "Entry denied: missing required vaccination."
+                
+        return "Glory to Arstotzka." if _entrance.passport.nation == "Arstotzka" else "Cause no trouble."
 
-                if self.requirements['certificate_of_vaccination']:
-                    assert self.vaccinations['Arstotzka'].issubset(
-                        set(entrance.vacs)), 'Entry denied: missing required vaccination.'
-                return 'Glory to Arstotzka.'
-
-            else:
-
-                assert len(entrance.name) == 1, 'Detainment: name mismatch.'
-                assert all(map(lambda x: x not in self.wanted, entrance.name)), 'Detainment: Entrant is a wanted criminal.'
-                assert len(entrance.dob) == 1, 'Detainment: date of birth mismatch.'
-                assert len(entrance.nation) == 1, 'Detainment: nationality mismatch.'
-                assert len(entrance.id) == 1, 'Detainment: ID number mismatch.'
-                assert entrance.passport, 'Entry denied: missing required passport.'
-                if self.requirements['access_permit']:
-                    assert entrance.access_permit or entrance.diplomatic_authorization or entrance.grant_of_asylum, 'Entry denied: missing required access permit.'
-                assert START_DATE < date(*map(int, entrance.passport_exp.split('.'))), 'Entry denied: passport expired.'
-                if entrance.access_permit:
-                    assert START_DATE < date(*map(int, entrance.access_permit_exp.split('.'))), 'Entry denied: access permit expired.'
-                if entrance.grant_of_asylum:
-                    assert START_DATE < date(*map(int, entrance.grant_of_asylum_exp.split('.'))), 'Entry denied: grant of asylum expired.'
-                if entrance.work_pass:
-                    assert START_DATE < date(*map(int, entrance.work_pass_exp.split('.'))), 'Entry denied: work pass expired.'
-                if entrance.diplomatic_authorization:
-                    assert entrance.access, 'Entry denied: invalid diplomatic authorization.'
-                assert tuple(entrance.nation)[0] in self.allow_nations, 'Entry denied: citizen of banned nation.'
-                if self.requirements['certificate_of_vaccination']:
-                    assert bool(entrance.certificate_of_vaccination), 'Entry denied: missing required certificate of vaccination.'
-                    assert self.vaccinations['Arstotzka'].issubset(set(entrance.vacs)), 'Entry denied: missing required vaccination.'
-                if entrance.purpose == 'WORK':
-                    assert bool(entrance.work_pass) == self.requirements['work_pass'], 'Entry denied: missing required work pass.'
-                return 'Cause no trouble.'
-        except AssertionError as inst:
-            return inst.args[0]
 ```
